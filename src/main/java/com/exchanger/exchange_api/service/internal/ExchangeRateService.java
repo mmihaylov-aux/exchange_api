@@ -11,7 +11,7 @@ import com.exchanger.exchange_api.enumeration.ErrorCode;
 import com.exchanger.exchange_api.exception.HttpResponseException;
 import com.exchanger.exchange_api.model.CurrencyModel;
 import com.exchanger.exchange_api.repository.CurrencyRepository;
-import com.exchanger.exchange_api.service.IRateService;
+import com.exchanger.exchange_api.service.IExchangeRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import java.math.RoundingMode;
 import java.util.stream.StreamSupport;
 
 @Service
-public class RateService implements IRateService {
+public class ExchangeRateService implements IExchangeRateService {
     private final ApiLayerClient apiLayerClient;
     private final CoinGeckoClient coinGeckoClient;
     private final CurrencyRepository currencyRepository;
@@ -29,31 +29,32 @@ public class RateService implements IRateService {
     private static final String MIDDLE_EXCHANGE_CURRENCY_LOWERCASE = MIDDLE_EXCHANGE_CURRENCY.toLowerCase();
 
     @Autowired
-    public RateService(ApiLayerClient apiLayerClient,
-                       CoinGeckoClient coinGeckoClient,
-                       CurrencyRepository currencyRepository) {
+    public ExchangeRateService(ApiLayerClient apiLayerClient,
+                               CoinGeckoClient coinGeckoClient,
+                               CurrencyRepository currencyRepository) {
         this.apiLayerClient = apiLayerClient;
         this.coinGeckoClient = coinGeckoClient;
         this.currencyRepository = currencyRepository;
     }
 
     @Override
-    public ExchangeRate getExchangeRate(String from, String to) throws HttpResponseException {
-        CurrencyDataDTO fromCurrency = this.currencyRepository.getFirstByCurrency(from);
-        CurrencyDataDTO toCurrency = this.currencyRepository.getFirstByCurrency(to);
+    public ExchangeRate getExchangeRate(String source, String target) throws HttpResponseException {
+        if(source.equals(target)) throw new HttpResponseException(ErrorCode.SAME_CURRENCY);
+        CurrencyDataDTO sourceCurrency = this.currencyRepository.getFirstByCurrency(source);
+        CurrencyDataDTO toCurrency = this.currencyRepository.getFirstByCurrency(target);
 
-        if (fromCurrency == null || toCurrency == null)
+        if (sourceCurrency == null || toCurrency == null)
             throw new HttpResponseException(ErrorCode.INVALID_CURRENCY_TYPE);
 
         BigDecimal exchangeRate;
-        if (fromCurrency.getProvider() == toCurrency.getProvider() &&
-                fromCurrency.getProvider() == CurrencyProvider.ApiLayer) {
-            ApiLayerLiveResponseDTO rate = apiLayerClient.getRate(from, to);
-            exchangeRate = rate.getQuotes().get(from + "" + to);
+        if (sourceCurrency.getProvider() == toCurrency.getProvider() &&
+                sourceCurrency.getProvider() == CurrencyProvider.ApiLayer) {
+            ApiLayerLiveResponseDTO rate = apiLayerClient.getRate(source, target);
+            exchangeRate = rate.getQuotes().get(source + "" + target);
         } else {
-            BigDecimal fromRate = getUsdRate(fromCurrency);
+            BigDecimal sourceRate = getUsdRate(sourceCurrency);
             BigDecimal toRate = getUsdRate(toCurrency);
-            exchangeRate = toRate.divide(fromRate, RoundingMode.HALF_UP);
+            exchangeRate = toRate.divide(sourceRate, RoundingMode.HALF_UP);
         }
 
         return new ExchangeRate(exchangeRate);

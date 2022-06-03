@@ -11,5 +11,5 @@ public interface IApiLayerClient {
 
     ApiLayerLiveResponseDTO getRate(String source, String currency) throws HttpResponseException;
 
-    BigDecimal convert(String from, String to, BigDecimal value);
+    BigDecimal convert(String source, String target, BigDecimal value);
 }

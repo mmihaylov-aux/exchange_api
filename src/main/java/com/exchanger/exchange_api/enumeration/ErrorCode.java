@@ -7,6 +7,8 @@ public enum ErrorCode {
     EXTERNAL_API_ERROR(1001),
     EXTERNAL_API_BAD_REQUEST(1002),
     INVALID_CURRENCY_TYPE(1003, "Invalid currency!"),
+    SAME_CURRENCY(1004, "Please provide 2 different currencies!"),
+    INVALID_CONVERSION_VALUE(1004, "Conversion value must be a positive number"),
     ;
     private final int code;
     private final String message;

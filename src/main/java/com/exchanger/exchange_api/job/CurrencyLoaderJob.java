@@ -44,14 +44,17 @@ public class CurrencyLoaderJob {
 //            Set<String> currencies = this.apiLayerClient.listCurrencies().getCurrencies().keySet();
             Set<String> currencies = Arrays.stream((new String[]{"USD", "BGN", "EUR"})).collect(Collectors.toSet());
 
-            this.currencyRepository.deleteAll();
-            this.currencyRepository.saveAll(currencies
-                    .stream().map(s -> new CurrencyModel(s, CurrencyProvider.ApiLayer)).collect(Collectors.toSet()));
+            Set<CurrencyModel> apiLayerCurrencies = currencies.stream().map(s ->
+                    new CurrencyModel(s, CurrencyProvider.ApiLayer)).collect(Collectors.toSet());
 
-            this.currencyRepository.saveAll(Arrays.stream(coinGeckoClient.listCurrencies())
+            Set<CurrencyModel> coinGeckoCurrencies = Arrays.stream(coinGeckoClient.listCurrencies())
                     .filter(coin -> !coin.getSymbol().isEmpty())
                     .map(coin -> new CurrencyModel(coin.getSymbol().toUpperCase(), coin.getId(),
-                            CurrencyProvider.CoinGecko)).collect(Collectors.toSet()));
+                            CurrencyProvider.CoinGecko)).collect(Collectors.toSet());
+
+            this.currencyRepository.deleteAll();
+            this.currencyRepository.saveAll(apiLayerCurrencies);
+            this.currencyRepository.saveAll(coinGeckoCurrencies);
 
             this.logger.info("CURRENCY GENERATING COMPLETED!");
         } catch (HttpResponseException e) {
