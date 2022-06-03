@@ -9,6 +9,9 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.time.Duration;
 
 @Component
@@ -31,5 +34,11 @@ public class BeanConfig {
         return WebClient.builder()
                 .exchangeStrategies(strategies)
                 .clientConnector(new ReactorClientHttpConnector(httpClient));
+    }
+
+    @Bean
+    public Validator validator(){
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        return factory.getValidator();
     }
 }

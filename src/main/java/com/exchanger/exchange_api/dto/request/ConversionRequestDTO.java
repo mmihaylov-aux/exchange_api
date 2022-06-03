@@ -1,10 +1,17 @@
 package com.exchanger.exchange_api.dto.request;
 
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+@Valid
 public class ConversionRequestDTO {
+    @DecimalMin(value = "0.0", inclusive = false)
     private BigDecimal amount;
+    @NotNull
     private String source;
+    @NotNull
     private String target;
 
     public ConversionRequestDTO() {

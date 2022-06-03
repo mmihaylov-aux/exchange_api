@@ -2,7 +2,7 @@ package com.exchanger.exchange_api.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "apilayer")
+@ConfigurationProperties(prefix = "api.apilayer")
 public class ApiLayerProperties {
     private String url;
     private String key;

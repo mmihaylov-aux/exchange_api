@@ -5,13 +5,16 @@ import com.exchanger.exchange_api.exception.HttpResponseException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.validation.ConstraintViolationException;
 import java.lang.annotation.Annotation;
 
 @Configuration
@@ -20,7 +23,13 @@ import java.lang.annotation.Annotation;
 public class ControllerAspect {
     private final Logger logger = LoggerFactory.getLogger("API CALL");
 
-    @Around("execution(* *.*(..)) && within(com.exchanger.exchange_api.controller.*)")
+    @Pointcut("execution(* *.*(..)) && within(com.exchanger.exchange_api.controller.*)")
+    public void controllers() {}
+
+    @Pointcut("within(@org.springframework.web.bind.annotation.RequestMapping *)")
+    public void requestMapping() {}
+
+    @Around("controllers() && requestMapping()")
     public Object around(ProceedingJoinPoint joinPoint) {
         final long startTime = System.currentTimeMillis();
 
@@ -34,6 +43,10 @@ public class ControllerAspect {
             if (e instanceof HttpResponseException)
                 //todo log error
                 return ((HttpResponseException) e).getResponse();
+            if (e instanceof ConstraintViolationException ||
+                    e instanceof MethodArgumentNotValidException) {
+                return new HttpResponseException(ErrorCode.VALIDATION_ERROR, e.getMessage()).getResponse();
+            }
             return new HttpResponseException(ErrorCode.INTERNAL_ERROR).getResponse();
         }
     }
