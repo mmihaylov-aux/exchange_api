@@ -1,6 +1,6 @@
 package com.exchanger.exchange_api.service.internal;
 
-import com.exchanger.exchange_api.service.IValidationService;
+import com.exchanger.exchange_api.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +10,11 @@ import javax.validation.Validator;
 import java.util.Set;
 
 @Service
-public class ValidationService implements IValidationService {
+public class ValidationServiceImpl implements ValidationService {
     private final Validator validator;
 
     @Autowired
-    public ValidationService(Validator validator) {
+    public ValidationServiceImpl(Validator validator) {
         this.validator = validator;
     }
 

@@ -7,8 +7,7 @@ import com.exchanger.exchange_api.enumeration.ErrorCode;
 import com.exchanger.exchange_api.exception.HttpResponseException;
 import com.exchanger.exchange_api.model.ConversionModel;
 import com.exchanger.exchange_api.repository.ConversionRepository;
-import com.exchanger.exchange_api.service.IConversionService;
-import com.exchanger.exchange_api.service.IExchangeRateService;
+import com.exchanger.exchange_api.service.ExchangeRateService;
 import com.exchanger.exchange_api.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,12 +21,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ConversionService implements IConversionService {
-    private final IExchangeRateService exchangeRateService;
+public class ConversionServiceImpl implements com.exchanger.exchange_api.service.ConversionService {
+    private final ExchangeRateService exchangeRateService;
     private final ConversionRepository conversionRepository;
 
     @Autowired
-    public ConversionService(IExchangeRateService exchangeRateService, ConversionRepository conversionRepository) {
+    public ConversionServiceImpl(ExchangeRateService exchangeRateService, ConversionRepository conversionRepository) {
         this.exchangeRateService = exchangeRateService;
         this.conversionRepository = conversionRepository;
     }

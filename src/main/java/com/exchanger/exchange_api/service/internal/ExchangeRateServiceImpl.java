@@ -11,7 +11,7 @@ import com.exchanger.exchange_api.enumeration.ErrorCode;
 import com.exchanger.exchange_api.exception.HttpResponseException;
 import com.exchanger.exchange_api.model.CurrencyModel;
 import com.exchanger.exchange_api.repository.CurrencyRepository;
-import com.exchanger.exchange_api.service.IExchangeRateService;
+import com.exchanger.exchange_api.service.ExchangeRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import java.math.RoundingMode;
 import java.util.stream.StreamSupport;
 
 @Service
-public class ExchangeRateService implements IExchangeRateService {
+public class ExchangeRateServiceImpl implements ExchangeRateService {
     private final ApiLayerClient apiLayerClient;
     private final CoinGeckoClient coinGeckoClient;
     private final CurrencyRepository currencyRepository;
@@ -29,9 +29,9 @@ public class ExchangeRateService implements IExchangeRateService {
     private static final String MIDDLE_EXCHANGE_CURRENCY_LOWERCASE = MIDDLE_EXCHANGE_CURRENCY.toLowerCase();
 
     @Autowired
-    public ExchangeRateService(ApiLayerClient apiLayerClient,
-                               CoinGeckoClient coinGeckoClient,
-                               CurrencyRepository currencyRepository) {
+    public ExchangeRateServiceImpl(ApiLayerClient apiLayerClient,
+                                   CoinGeckoClient coinGeckoClient,
+                                   CurrencyRepository currencyRepository) {
         this.apiLayerClient = apiLayerClient;
         this.coinGeckoClient = coinGeckoClient;
         this.currencyRepository = currencyRepository;

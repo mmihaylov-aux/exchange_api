@@ -2,7 +2,7 @@ package com.exchanger.exchange_api.controller;
 
 import com.exchanger.exchange_api.domain.ExchangeRate;
 import com.exchanger.exchange_api.exception.HttpResponseException;
-import com.exchanger.exchange_api.service.IExchangeRateService;
+import com.exchanger.exchange_api.service.ExchangeRateService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @Api
 public class RateController {
-    private final IExchangeRateService exchangeRateService;
+    private final ExchangeRateService exchangeRateService;
 
     @Autowired
-    public RateController(IExchangeRateService exchangeRateService) {
+    public RateController(ExchangeRateService exchangeRateService) {
         this.exchangeRateService = exchangeRateService;
     }
 

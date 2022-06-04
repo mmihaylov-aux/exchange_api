@@ -7,7 +7,7 @@ import com.exchanger.exchange_api.exception.HttpResponseException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public interface IConversionService {
+public interface ConversionService {
     ConversionResponseDTO convert(BigDecimal value, String source, String target) throws HttpResponseException;
 
     ConversionListResponseDTO listTransactions(String transactionId,

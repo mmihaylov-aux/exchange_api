@@ -44,6 +44,10 @@ public class ConversionModel {
     public ConversionModel() {
     }
 
+    public ConversionModel(UUID id) {
+        this.id = id;
+    }
+
     public ConversionModel(String sourceCurrency, String targetCurrency, BigDecimal sourceAmount, BigDecimal targetAmount, BigDecimal exchangeRate) {
         this.sourceCurrency = sourceCurrency;
         this.targetCurrency = targetCurrency;
