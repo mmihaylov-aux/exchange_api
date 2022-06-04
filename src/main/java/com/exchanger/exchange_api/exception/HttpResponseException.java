@@ -1,7 +1,7 @@
 package com.exchanger.exchange_api.exception;
 
-import com.exchanger.exchange_api.enumeration.ErrorCode;
 import com.exchanger.exchange_api.dto.ErrorResponseDTO;
+import com.exchanger.exchange_api.enumeration.ErrorCode;
 import org.springframework.http.ResponseEntity;
 
 public class HttpResponseException extends Exception {

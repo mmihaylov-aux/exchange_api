@@ -1,14 +1,19 @@
 package com.exchanger.exchange_api.dto.response;
 
 import com.exchanger.exchange_api.model.ConversionModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@ApiModel
 public class ConversionListResponseDTO {
+    @ApiModelProperty(example = "0")
     private int currentPage;
+    @ApiModelProperty(example = "10")
     private int maxPage;
     private List<ConversionDTO> conversions;
 
@@ -49,11 +54,17 @@ public class ConversionListResponseDTO {
 
 
     public static class ConversionDTO {
+        @ApiModelProperty(example = "UUID")
         private String id;
+        @ApiModelProperty(example = "EUR")
         private String sourceCurrency;
+        @ApiModelProperty(example = "USD")
         private String targetCurrency;
+        @ApiModelProperty(example = "100.1")
         private BigDecimal sourceAmount;
+        @ApiModelProperty(example = "250.25")
         private BigDecimal targetAmount;
+        @ApiModelProperty(example = "2.5")
         private BigDecimal exchangeRate;
         public Date createdAt;
 

@@ -39,10 +39,9 @@ public class CurrencyLoaderJob {
     @Scheduled(fixedRate = 3_600_000)
     public void loadCurrencies() {
         this.logger.info("CURRENCY GENERATING STARTED...");
-        //todo uncomment on for real data
         try {
-//            Set<String> currencies = this.apiLayerClient.listCurrencies().getCurrencies().keySet();
-            Set<String> currencies = Arrays.stream((new String[]{"USD", "BGN", "EUR"})).collect(Collectors.toSet());
+            Set<String> currencies = this.apiLayerClient.listCurrencies().getCurrencies().keySet();
+//            Set<String> currencies = Arrays.stream((new String[]{"USD", "BGN", "EUR"})).collect(Collectors.toSet());
 
             Set<CurrencyModel> apiLayerCurrencies = currencies.stream().map(s ->
                     new CurrencyModel(s, CurrencyProvider.ApiLayer)).collect(Collectors.toSet());
