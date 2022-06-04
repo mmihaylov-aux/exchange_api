@@ -29,11 +29,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public Docket categoryApi() {
+    public Docket categoryApi(@Value("${server.servlet.contextPath}") String apiUrl) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .paths(Predicate.not(regex(".*/api/v1/error")))
+                .paths(Predicate.not(regex(".*%s/error".formatted(apiUrl))))
                 .build()
                 .ignoredParameterTypes(ApiIgnore.class)
                 .enableUrlTemplating(true);

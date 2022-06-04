@@ -25,13 +25,13 @@ public class RateController {
         this.exchangeRateService = exchangeRateService;
     }
 
-    @GetMapping("/{source}/{target}")
+    @GetMapping(value = "/{source}/{target}", produces = "application/json")
     public ResponseEntity<ExchangeRateResponseDTO> getExchangeRate(@PathVariable("source") String source,
                                                                    @PathVariable("target") String target) throws HttpResponseException {
         return new ResponseEntity<>(exchangeRateService.getExchangeRate(source, target), HttpStatus.OK);
     }
 
-    @GetMapping("/currencies")
+    @GetMapping(value = "/currencies", produces = "application/json")
     public ResponseEntity<String[]> listCurrencies() {
         return new ResponseEntity<>(exchangeRateService.listCurrencies(), HttpStatus.OK);
     }

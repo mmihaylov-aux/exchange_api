@@ -5,7 +5,6 @@ import com.exchanger.exchange_api.dto.response.ConversionListResponseDTO;
 import com.exchanger.exchange_api.dto.response.ConversionResponseDTO;
 import com.exchanger.exchange_api.exception.HttpResponseException;
 import com.exchanger.exchange_api.service.ConversionService;
-import com.exchanger.exchange_api.service.ValidationService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,22 +24,19 @@ import java.util.Date;
 @Api
 public class ConversionController {
     private final ConversionService conversionService;
-    private final ValidationService validationService;
 
     @Autowired
-    public ConversionController(ConversionService conversionService, ValidationService validationService) {
+    public ConversionController(ConversionService conversionService) {
         this.conversionService = conversionService;
-        this.validationService = validationService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<ConversionResponseDTO> postConvert(
-            @RequestBody ConversionRequestDTO body) throws HttpResponseException {
-        validationService.validate(body);
+            @RequestBody @Validated ConversionRequestDTO body) throws HttpResponseException {
         return new ResponseEntity<>(conversionService.convert(body.getAmount(), body.getSource(), body.getTarget()), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<ConversionListResponseDTO> getConversionList(
             @RequestParam(required = false) String id,
             @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") @PastOrPresent Date date,
