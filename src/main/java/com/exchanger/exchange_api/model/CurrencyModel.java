@@ -1,12 +1,13 @@
 package com.exchanger.exchange_api.model;
 
+import com.exchanger.exchange_api.dto.CurrencyDataDTO;
 import com.exchanger.exchange_api.enumeration.CurrencyProvider;
 
 import javax.persistence.*;
 
 @Entity
 @Table
-public class CurrencyModel {
+public class CurrencyModel implements CurrencyDataDTO {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;

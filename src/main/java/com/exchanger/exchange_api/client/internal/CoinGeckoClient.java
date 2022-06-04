@@ -2,6 +2,7 @@ package com.exchanger.exchange_api.client.internal;
 
 import com.exchanger.exchange_api.client.HttpRequestClient;
 import com.exchanger.exchange_api.config.properties.CoinGeckoProperties;
+import com.exchanger.exchange_api.dto.CurrencyDataDTO;
 import com.exchanger.exchange_api.dto.error.CoinGeckoErrorResponseDTO;
 import com.exchanger.exchange_api.dto.response.CoinGeckoListResponseDTO;
 import com.exchanger.exchange_api.dto.response.CoinGeckoLiveResponseDTO;
@@ -25,8 +26,8 @@ public class CoinGeckoClient extends HttpRequestClient {
         return this.get("coins/list", CoinGeckoListResponseDTO[].class);
     }
 
-    public CoinGeckoLiveResponseDTO getRate(String sourceId) throws HttpResponseException {
-        return this.get("coins/%s".formatted(sourceId),
+    public CoinGeckoLiveResponseDTO getRate(CurrencyDataDTO currency) throws HttpResponseException {
+        return this.get("coins/%s".formatted(currency.getCurrencyId()),
                 CoinGeckoLiveResponseDTO.class);
     }
 }

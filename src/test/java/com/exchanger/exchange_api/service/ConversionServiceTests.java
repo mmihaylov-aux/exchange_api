@@ -8,7 +8,6 @@ import com.exchanger.exchange_api.exception.HttpResponseException;
 import com.exchanger.exchange_api.model.ConversionModel;
 import com.exchanger.exchange_api.repository.ConversionRepository;
 import com.exchanger.exchange_api.service.internal.ConversionServiceImpl;
-import com.exchanger.exchange_api.service.internal.ExchangeRateServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +27,7 @@ public class ConversionServiceTests {
     ConversionRepository conversionRepository;
 
     @Mock
-    ExchangeRateServiceImpl exchangeRateService;
+    ExchangeRateService exchangeRateService;
 
     @InjectMocks
     ConversionServiceImpl conversionService;
@@ -103,23 +102,27 @@ public class ConversionServiceTests {
 
     @Test
     public void when_listing_transaction_by_no_id_or_date_should_throw_exception() {
+        HttpResponseException ex = null;
         try {
             conversionService.listTransactions(
                     conversionModelNewUUID + "_INVALID", null, 0, 10);
         } catch (HttpResponseException e) {
-            Assert.assertNotNull("An exception should be thrown", e);
-            Assert.assertEquals(ErrorCode.CONVERSION_LIST_ID_NOT_FOUND, e.getCode());
+            ex = e;
         }
+        Assert.assertNotNull("An exception should be thrown", ex);
+        Assert.assertEquals(ErrorCode.CONVERSION_LIST_ID_NOT_FOUND, ex.getCode());
     }
 
     @Test
     public void when_listing_transaction_by_incorrect_id_should_throw_exception() {
+        HttpResponseException ex = null;
         try {
             conversionService.listTransactions(null, null, 0, 10);
         } catch (HttpResponseException e) {
-            Assert.assertNotNull("An exception should be thrown", e);
-            Assert.assertEquals(ErrorCode.CONVERSION_LIST_PROVIDE_ID_OR_DATE, e.getCode());
+            ex = e;
         }
+        Assert.assertNotNull("An exception should be thrown", ex);
+        Assert.assertEquals(ErrorCode.CONVERSION_LIST_PROVIDE_ID_OR_DATE, ex.getCode());
     }
 
     @Test
