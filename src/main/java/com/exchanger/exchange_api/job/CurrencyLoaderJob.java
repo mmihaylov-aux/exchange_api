@@ -1,7 +1,7 @@
 package com.exchanger.exchange_api.job;
 
-import com.exchanger.exchange_api.client.internal.ApiLayerClient;
-import com.exchanger.exchange_api.client.internal.CoinGeckoClient;
+import com.exchanger.exchange_api.client.internal.ApiLayerClientImpl;
+import com.exchanger.exchange_api.client.internal.CoinGeckoClientImpl;
 import com.exchanger.exchange_api.enumeration.CurrencyProvider;
 import com.exchanger.exchange_api.exception.HttpResponseException;
 import com.exchanger.exchange_api.model.CurrencyModel;
@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 public class CurrencyLoaderJob {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-    private final ApiLayerClient apiLayerClient;
-    private final CoinGeckoClient coinGeckoClient;
+    private final ApiLayerClientImpl apiLayerClient;
+    private final CoinGeckoClientImpl coinGeckoClient;
     private final CurrencyRepository currencyRepository;
 
     @Autowired
-    public CurrencyLoaderJob(ApiLayerClient apiLayerClient,
-                             CoinGeckoClient coinGeckoClient,
+    public CurrencyLoaderJob(ApiLayerClientImpl apiLayerClient,
+                             CoinGeckoClientImpl coinGeckoClient,
                              CurrencyRepository currencyRepository) {
         this.apiLayerClient = apiLayerClient;
         this.coinGeckoClient = coinGeckoClient;

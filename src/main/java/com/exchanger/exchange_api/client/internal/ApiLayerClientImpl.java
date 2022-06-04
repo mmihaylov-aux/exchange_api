@@ -1,7 +1,7 @@
 package com.exchanger.exchange_api.client.internal;
 
 import com.exchanger.exchange_api.client.HttpRequestClient;
-import com.exchanger.exchange_api.client.IApiLayerClient;
+import com.exchanger.exchange_api.client.ApiLayerClient;
 import com.exchanger.exchange_api.config.properties.ApiLayerProperties;
 import com.exchanger.exchange_api.dto.error.ApiLayerErrorResponseDTO;
 import com.exchanger.exchange_api.dto.response.ApiLayerListResponseDTO;
@@ -14,11 +14,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.math.BigDecimal;
 
 @Component
-public class ApiLayerClient extends HttpRequestClient implements IApiLayerClient {
+public class ApiLayerClientImpl extends HttpRequestClient implements ApiLayerClient {
     private final static String API_KEY_HEADER = "apikey";
 
     @Autowired
-    public ApiLayerClient(ApiLayerProperties properties, WebClient.Builder clientBuilder) {
+    public ApiLayerClientImpl(ApiLayerProperties properties, WebClient.Builder clientBuilder) {
         super(clientBuilder.baseUrl(properties.getUrl())
                 .defaultHeader(API_KEY_HEADER, properties.getKey()),
                 ApiLayerErrorResponseDTO.class);

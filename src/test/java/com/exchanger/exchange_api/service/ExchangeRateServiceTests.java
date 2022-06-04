@@ -1,10 +1,10 @@
 package com.exchanger.exchange_api.service;
 
-import com.exchanger.exchange_api.client.internal.ApiLayerClient;
-import com.exchanger.exchange_api.client.internal.CoinGeckoClient;
-import com.exchanger.exchange_api.domain.ExchangeRate;
+import com.exchanger.exchange_api.client.ApiLayerClient;
+import com.exchanger.exchange_api.client.CoinGeckoClient;
 import com.exchanger.exchange_api.dto.response.ApiLayerLiveResponseDTO;
 import com.exchanger.exchange_api.dto.response.CoinGeckoLiveResponseDTO;
+import com.exchanger.exchange_api.dto.response.ExchangeRateResponseDTO;
 import com.exchanger.exchange_api.enumeration.CurrencyProvider;
 import com.exchanger.exchange_api.enumeration.ErrorCode;
 import com.exchanger.exchange_api.exception.HttpResponseException;
@@ -120,7 +120,7 @@ public class ExchangeRateServiceTests {
     @Test
     public void when_get_exchange_rate_with_apiLayer_provider_only_should_be_correct() {
         try {
-            ExchangeRate rate = exchangeRateService.getExchangeRate(usdCurrency, eurCurrency);
+            ExchangeRateResponseDTO rate = exchangeRateService.getExchangeRate(usdCurrency, eurCurrency);
             Assert.assertEquals(exchangeRate, rate.getValue());
         } catch (HttpResponseException e) {
             Assert.assertNull("An exception should not be thrown", e);
@@ -131,7 +131,7 @@ public class ExchangeRateServiceTests {
     public void when_get_exchange_rate_with_crypto_should_be_correct() {
         final RoundingMode roundingMode = RoundingMode.HALF_UP;
         try {
-            ExchangeRate rate = exchangeRateService.getExchangeRate(btcCrypto, eurCurrency);
+            ExchangeRateResponseDTO rate = exchangeRateService.getExchangeRate(btcCrypto, eurCurrency);
             Assert.assertEquals(exchangeRate.divide(cryptoExchangeRate, roundingMode), rate.getValue());
 
             rate = exchangeRateService.getExchangeRate(eurCurrency, btcCrypto);

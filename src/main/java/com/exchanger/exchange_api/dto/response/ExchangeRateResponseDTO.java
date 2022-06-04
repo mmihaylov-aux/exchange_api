@@ -1,11 +1,11 @@
-package com.exchanger.exchange_api.domain;
+package com.exchanger.exchange_api.dto.response;
 
 import java.math.BigDecimal;
 
-public class ExchangeRate {
+public class ExchangeRateResponseDTO {
     private BigDecimal value;
 
-    public ExchangeRate(BigDecimal value) {
+    public ExchangeRateResponseDTO(BigDecimal value) {
         this.value = value;
     }
 

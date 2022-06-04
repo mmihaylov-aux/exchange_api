@@ -1,6 +1,6 @@
 package com.exchanger.exchange_api.controller;
 
-import com.exchanger.exchange_api.domain.ExchangeRate;
+import com.exchanger.exchange_api.dto.response.ExchangeRateResponseDTO;
 import com.exchanger.exchange_api.exception.HttpResponseException;
 import com.exchanger.exchange_api.service.ExchangeRateService;
 import io.swagger.annotations.Api;
@@ -26,8 +26,8 @@ public class RateController {
     }
 
     @GetMapping("/{source}/{target}")
-    public ResponseEntity<ExchangeRate> getExchangeRate(@PathVariable("source") String source,
-                                                        @PathVariable("target") String target) throws HttpResponseException {
+    public ResponseEntity<ExchangeRateResponseDTO> getExchangeRate(@PathVariable("source") String source,
+                                                                   @PathVariable("target") String target) throws HttpResponseException {
         return new ResponseEntity<>(exchangeRateService.getExchangeRate(source, target), HttpStatus.OK);
     }
 

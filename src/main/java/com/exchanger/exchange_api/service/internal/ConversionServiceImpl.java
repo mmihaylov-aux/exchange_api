@@ -1,6 +1,6 @@
 package com.exchanger.exchange_api.service.internal;
 
-import com.exchanger.exchange_api.domain.ExchangeRate;
+import com.exchanger.exchange_api.dto.response.ExchangeRateResponseDTO;
 import com.exchanger.exchange_api.dto.response.ConversionListResponseDTO;
 import com.exchanger.exchange_api.dto.response.ConversionResponseDTO;
 import com.exchanger.exchange_api.enumeration.ErrorCode;
@@ -32,7 +32,7 @@ public class ConversionServiceImpl implements com.exchanger.exchange_api.service
     }
 
     public ConversionResponseDTO convert(BigDecimal value, String source, String target) throws HttpResponseException {
-        final ExchangeRate exchangeRate = this.exchangeRateService.getExchangeRate(source, target);
+        final ExchangeRateResponseDTO exchangeRate = this.exchangeRateService.getExchangeRate(source, target);
         ConversionModel conversionModel = new ConversionModel(source, target, value,
                 value.multiply(exchangeRate.getValue()), exchangeRate.getValue());
 

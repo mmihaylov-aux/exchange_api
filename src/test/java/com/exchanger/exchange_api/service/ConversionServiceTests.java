@@ -1,6 +1,6 @@
 package com.exchanger.exchange_api.service;
 
-import com.exchanger.exchange_api.domain.ExchangeRate;
+import com.exchanger.exchange_api.dto.response.ExchangeRateResponseDTO;
 import com.exchanger.exchange_api.dto.response.ConversionListResponseDTO;
 import com.exchanger.exchange_api.dto.response.ConversionResponseDTO;
 import com.exchanger.exchange_api.enumeration.ErrorCode;
@@ -46,7 +46,7 @@ public class ConversionServiceTests {
     @Before
     public void prepareMocks() throws HttpResponseException {
         Mockito.when(exchangeRateService.getExchangeRate(Mockito.anyString(), Mockito.anyString()))
-                .thenReturn(new ExchangeRate(exchangeRateFromEurToUsd));
+                .thenReturn(new ExchangeRateResponseDTO(exchangeRateFromEurToUsd));
 
         Mockito.when(conversionRepository.save(Mockito.any(ConversionModel.class)))
                 .thenAnswer(invocationOnMock -> {

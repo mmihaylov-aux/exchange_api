@@ -1,11 +1,11 @@
 package com.exchanger.exchange_api.service.internal;
 
-import com.exchanger.exchange_api.client.internal.ApiLayerClient;
-import com.exchanger.exchange_api.client.internal.CoinGeckoClient;
-import com.exchanger.exchange_api.domain.ExchangeRate;
+import com.exchanger.exchange_api.client.ApiLayerClient;
+import com.exchanger.exchange_api.client.CoinGeckoClient;
 import com.exchanger.exchange_api.dto.CurrencyDataDTO;
 import com.exchanger.exchange_api.dto.response.ApiLayerLiveResponseDTO;
 import com.exchanger.exchange_api.dto.response.CoinGeckoLiveResponseDTO;
+import com.exchanger.exchange_api.dto.response.ExchangeRateResponseDTO;
 import com.exchanger.exchange_api.enumeration.CurrencyProvider;
 import com.exchanger.exchange_api.enumeration.ErrorCode;
 import com.exchanger.exchange_api.exception.HttpResponseException;
@@ -39,7 +39,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     }
 
     @Override
-    public ExchangeRate getExchangeRate(String source, String target) throws HttpResponseException {
+    public ExchangeRateResponseDTO getExchangeRate(String source, String target) throws HttpResponseException {
         if(source.equals(target)) throw new HttpResponseException(ErrorCode.SAME_CURRENCY);
         CurrencyDataDTO sourceCurrency = this.currencyRepository.getFirstByCurrency(source);
         CurrencyDataDTO targetCurrency = this.currencyRepository.getFirstByCurrency(target);
@@ -58,7 +58,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
             exchangeRate = targetRate.divide(sourceRate, RoundingMode.HALF_UP);
         }
 
-        return new ExchangeRate(exchangeRate);
+        return new ExchangeRateResponseDTO(exchangeRate);
     }
 
     private BigDecimal getUsdRate(CurrencyDataDTO currencyData) throws HttpResponseException {

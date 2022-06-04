@@ -6,7 +6,7 @@ import com.exchanger.exchange_api.exception.HttpResponseException;
 
 import java.math.BigDecimal;
 
-public interface IApiLayerClient {
+public interface ApiLayerClient {
     ApiLayerListResponseDTO listCurrencies() throws HttpResponseException;
 
     ApiLayerLiveResponseDTO getRate(String source, String currency) throws HttpResponseException;
